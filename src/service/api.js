@@ -16,7 +16,7 @@ export function postSignIn(body){
 export function postSignUp(body){
     const requisition = axios.post(
         `${URL}/sign-up`,
-        body
+        body,
     );
     return requisition;
 }
