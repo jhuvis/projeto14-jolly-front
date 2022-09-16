@@ -3,16 +3,89 @@ import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
 import { useContext, useEffect } from "react";
 import UserContext from "../../contexts/UserContext";
-import { postSignIn } from '../../service/api';
+import { getCart, upCart } from '../../service/api';
 import Cart from './Cart';
+
+let qtd = [];
 
 export default function Carts() {
 
-    const [corpo, setCorpo] = useState("none");
-    const [carro, setCarro] = useState("flex");
+    const [corpo, setCorpo] = useState("flex");
+    const [carro, setCarro] = useState("none");
+    const [carts, setCarts] = useState([]);
+
+    const [total, setTotal] = useState(0);
+    const [att, setAtt] = useState(0);
     
+    
+    let token = "a4b338dd-e408-40bc-834c-84231eeba591"; //localStorage.getItem("token");
     const { tasks, setTasks } = useContext(UserContext);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        let isApiSubscribed = true;
+    
+        getCart(token).then((res) => {
+          if(isApiSubscribed) 
+          {
+            setCarts(res.data);
+            if(res.data.length === 0)
+            {
+                setCarro("none");
+                setCorpo("flex");
+            }
+            else
+            {
+                setCarro("flex");
+                setCorpo("none");
+                let t = 0;
+                for(let i = 0; i < res.data.length; i++)
+                {
+                    t += (res.data[i].price * res.data[i].quantity);
+                }
+                console.log(t);
+                setTotal(t);
+            }
+          }
+        });
+        return () => 
+        {
+          isApiSubscribed = false;
+        };
+      }, [att]);
+
+      function upQtd(quantidade, index)
+      {
+        qtd[index] = quantidade;
+      }
+
+      function updateCart()
+      {
+        console.log(qtd);
+        for(let i = 0; i < qtd.length; i++)
+        {
+            if(qtd[i])
+            {
+                const body = {
+                    name: carts[i].name,
+                    quantity: qtd[i]
+                }
+
+                const requisicao = upCart(token, body);
+
+                requisicao.then((e) => 
+                {
+                    console.log(e);
+                });
+                requisicao.catch((e) => {
+                    
+                    alert("updateCart deu errado " + e);
+                })
+            }
+        }
+        setAtt(att+1);
+        qtd = [];
+      }
     
     return (
         <>
@@ -29,27 +102,33 @@ export default function Carts() {
         
         <Carrinho display={carro}>
         <Seila>
-            <TopoCart>
+            <TopoCart >
                 <div></div>
                 <div>Product</div>
                 <div>Price</div>
                 <div>Quantity</div>
                 <div>Total</div>
             </TopoCart>
-            <Cart />
-            <Cart />
-            <Cart />
+            {carts.map((cart, index) => <Cart
+                name={cart.name}
+                price={cart.price}
+                img={cart.image}
+                quantity={cart.quantity}
+                upQtd={upQtd}
+                index = {index}
+                _id = {cart._id}
+                key={index} />)}
  
         
         </Seila>
         <Baixo>
-            <Buttom>Update cart</Buttom>
+            <Buttom onClick={() => updateCart()}>Update cart</Buttom>
         </Baixo>
         <Total>
             <h1>Cart Total</h1>
             <Totais>
                 <div><h3>Total</h3></div>
-                <div><h3>$250.00</h3></div>
+                <div><h3>${total.toFixed(2)}</h3></div>
             </Totais>
             <Buttom>Proceed to checkout</Buttom>   
         </Total>  
@@ -122,7 +201,7 @@ div{
 `;
 
 const Carrinho = styled.div`
-display: flex;
+display: ${props => props.display};
 flex-direction: column;
 margin: 85px;
 `;
