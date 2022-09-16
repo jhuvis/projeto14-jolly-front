@@ -14,7 +14,7 @@ export default function Cart(props) {
     const [carrega, setCarregar] = useState("none");
 
     const navigate = useNavigate();
-    let token = "a4b338dd-e408-40bc-834c-84231eeba591"; //localStorage.getItem("token");
+    let token = localStorage.getItem("token");
 
     function deleta()
     {

@@ -20,6 +20,8 @@ export default function SignInDisplay(){
 			password: password
 		}).then((answer) => {
             setTasks(answer.data);
+            localStorage.setItem("token", answer.data.token);
+            console.log(answer.data.token);
             navigate("/");
         }).catch((err) => {
             alert("Login não efetuado! Tente novamente!");
