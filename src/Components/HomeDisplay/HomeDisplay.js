@@ -41,18 +41,125 @@ export default function HomeDisplay() {
                 <Product>
                     <ProductImage src='https://arredo.qodeinteractive.com/wp-content/uploads/2018/05/product-img-6.jpg'></ProductImage>
                     <ProductTitle>Cadeira de madeira</ProductTitle>
-                    <ProductPrice>199,90</ProductPrice>
+                    <ProductPrice>R$199,90</ProductPrice>
+                    <AddButton>Adicionar ao carrinho</AddButton>
+                </Product>
+                <Product>
+                    <ProductImage src='https://arredo.qodeinteractive.com/wp-content/uploads/2018/05/product-img-6.jpg'></ProductImage>
+                    <ProductTitle>Cadeira de madeira</ProductTitle>
+                    <ProductPrice>R$199,90</ProductPrice>
+                    <AddButton>Adicionar ao carrinho</AddButton>
+                </Product>
+                <Product>
+                    <ProductImage src='https://arredo.qodeinteractive.com/wp-content/uploads/2018/05/product-img-6.jpg'></ProductImage>
+                    <ProductTitle>Cadeira de madeira</ProductTitle>
+                    <ProductPrice>R$199,90</ProductPrice>
+                    <AddButton>Adicionar ao carrinho</AddButton>
+                </Product>
+                <Product>
+                    <ProductImage src='https://arredo.qodeinteractive.com/wp-content/uploads/2018/05/product-img-6.jpg'></ProductImage>
+                    <ProductTitle>Cadeira de madeira</ProductTitle>
+                    <ProductPrice>R$199,90</ProductPrice>
+                    <AddButton>Adicionar ao carrinho</AddButton>
+                </Product>
+                <Product>
+                    <ProductImage src='https://arredo.qodeinteractive.com/wp-content/uploads/2018/05/product-img-6.jpg'></ProductImage>
+                    <ProductTitle>Cadeira de madeira</ProductTitle>
+                    <ProductPrice>R$199,90</ProductPrice>
+                    <AddButton>Adicionar ao carrinho</AddButton>
                 </Product>
             </ProductsList>
+            <Footer>
+                <AboutDiv>
+                    <FooterTitle>Sobre nós</FooterTitle>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vehicula nec purus a placerat. Nam mattis malesuada nisl, at finibus sem ornare id.</p>
+                </AboutDiv>
+                <ContactDiv>
+                    <FooterTitle>Contato</FooterTitle>
+                    <p>email@jolly.com</p>
+                    <SingleSpacing></SingleSpacing>
+                    <p>+55 (11) 99999-9999</p>
+                </ContactDiv>
+            </Footer>
         </Content>
     );
 }
 
-const ProductPrice = styled.p`
+const SingleSpacing = styled.div`
+    margin-bottom: 7px;
+`;
 
+const FooterTitle = styled.div`
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    color: white;
+    margin-bottom: 10px;
+`;
+
+const AboutDiv = styled.div`
+    width: 300px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    color: white;
+    margin: 60px;
+    margin-left: 70px;
+`;
+
+const ContactDiv = styled.div`
+    width: 300px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    color: white;
+    margin-bottom: 35px;
+`;
+
+const Footer = styled.div`
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    background-color: grey;
+`;
+
+const AddButton = styled.div`
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 15px;
+    box-sizing: border-box;
+    padding: 6px;
+    color: lightgrey;
+    border: 1px solid lightgray;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    :hover{
+        color: white;
+        background-color: lightgrey;
+        cursor: pointer;
+    }
+`;
+
+const ProductPrice = styled.p`
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 15px;
+    color: #000000;
+    margin-bottom: 10px;
 `;
 const ProductTitle = styled.p`
-
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    color: #000000;
+    margin-top: 10px;
+    margin-bottom: 10px;
 `;
 
 const ProductImage = styled.img`
@@ -60,20 +167,26 @@ const ProductImage = styled.img`
     height: 350px;
     object-fit: cover;
     object-position: center;
+    :hover{
+        box-shadow: 0px 0px 4px gray;
+    }
 `;
 
 const Product = styled.div`
-    width: 100%;
+    width: 275px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 30px;
 `;
 
 const ProductsList = styled.div`
     display: flex;
     width: 90%;
     justify-content: space-between;
-    margin-top: 75px;
+    margin-top: 50px;
+    margin-bottom: 75px;
+    flex-wrap: wrap;
 `;
 
 const CollectionText = styled.div`
@@ -97,7 +210,7 @@ const New = styled.div`
     color: lightgrey;
     margin-left: 10px;
     border: 1px solid lightgray;
-    border-radius: 10px;
+    border-radius: 20px;
 `;
 
 const Icon = styled.div`
@@ -144,7 +257,7 @@ const BannerText = styled.div`
 
 const BannerImage = styled.img`
     height: 24vw;
-    width: 26vw;
+    width: 27vw;
     margin-left: 8%;
     object-fit: cover;
     object-position: bottom;
