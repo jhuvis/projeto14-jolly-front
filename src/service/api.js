@@ -36,3 +36,29 @@ export function postSignUp(body){
     );
     return requisition;
 }
+
+export function getCart(token){
+    const requisition = axios.get(
+        `${URL}/cart`,
+        headerCreator(token)
+    );
+    return requisition;
+}
+
+export function upCart(token, body){
+    const requisition = axios.put(
+        `${URL}/update-cart`,
+        body,
+        headerCreator(token)
+    );
+    return requisition;
+}
+
+export function deleteCart(token, body){
+    const requisition = axios.put(
+        `${URL}/delete-cart`,
+        body, 
+        headerCreator(token)
+    );
+    return requisition;
+}
