@@ -130,7 +130,7 @@ export default function Carts() {
                 <div><h3>Total</h3></div>
                 <div><h3>${total.toFixed(2)}</h3></div>
             </Totais>
-            <Buttom>Proceed to checkout</Buttom>   
+            <Link to={"/checkout"}><Buttom>Proceed to checkout</Buttom></Link> 
         </Total>  
         </Carrinho>
         </Content>
