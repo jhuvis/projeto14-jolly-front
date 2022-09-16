@@ -1,28 +1,47 @@
 import styled from 'styled-components';
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useContext, useEffect } from "react";
-import UserContext from "../../contexts/UserContext";
-import { postSignIn } from '../../service/api';
+import { getProducts } from '../../service/api';
+import Product from './Product';
 
 export default function HomeDisplay() {
-    
-    const { tasks, setTasks } = useContext(UserContext);
     const navigate = useNavigate();
-    
+    const [productsContent, setProductsContent] = useState(<></>);
+    let productsList;
+    getProducts().then(renderProducts).catch(() => {
+        alert("Erro ao carregar os produtos! Tente novamente!");
+    });
+    function renderProducts(answer) {
+        productsList=answer.data;
+        setProductsContent(<>
+            {productsList.map((product,index) => <Product key={index} name={product.name} image={product.image} price={product.price}/>)}
+        </>);
+    }
+    function getHome(){
+        navigate('/');
+    }
+    function getSignIn(){
+        navigate('/sign-in');
+    }
+    function getSignUp(){
+        navigate('/sign-up');
+    }
+    function getCart(){
+        navigate('/cart');
+    }
     return (
         <Content>
             <Header>
-                JOLLY
+                <Click onClick={getHome}>JOLLY</Click>
                 <Icons>
                     <Icon>
-                        <ion-icon name="home"></ion-icon>
+                        <ion-icon name="home" onClick={getHome}></ion-icon>
                     </Icon>
                     <Icon>
-                        <ion-icon name="cart"></ion-icon>
+                        <ion-icon name="cart" onClick={getCart}></ion-icon>
                     </Icon>
                     <Icon>
-                        <ion-icon name="person"></ion-icon>
+                        <ion-icon name="person" onClick={getSignIn}></ion-icon>
                     </Icon>
                 </Icons>
             </Header>
@@ -33,41 +52,12 @@ export default function HomeDisplay() {
                     <BannerDescription>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vehicula nec purus a placerat. Nam mattis malesuada nisl, at finibus sem ornare id. Praesent vel purus et eros pharetra consequat. Donec eleifend mattis purus vel cursus. Etiam eu hendrerit lorem. Curabitur pharetra tortor eu libero imperdiet tincidunt. Sed sed ultricies nunc.
                     </BannerDescription>
-                    <SignUpText>Cadastre-se para receber todas as novidades!</SignUpText>
+                    <SignUpText onClick={getSignUp}>Cadastre-se para receber todas as novidades!</SignUpText>
                 </TextFlexing>
             </Banner>
             <CollectionText>Coleção Capri<New>New</New></CollectionText>
             <ProductsList>
-                <Product>
-                    <ProductImage src='https://arredo.qodeinteractive.com/wp-content/uploads/2018/05/product-img-6.jpg'></ProductImage>
-                    <ProductTitle>Cadeira de madeira</ProductTitle>
-                    <ProductPrice>R$199,90</ProductPrice>
-                    <AddButton>Adicionar ao carrinho</AddButton>
-                </Product>
-                <Product>
-                    <ProductImage src='https://arredo.qodeinteractive.com/wp-content/uploads/2018/05/product-img-6.jpg'></ProductImage>
-                    <ProductTitle>Cadeira de madeira</ProductTitle>
-                    <ProductPrice>R$199,90</ProductPrice>
-                    <AddButton>Adicionar ao carrinho</AddButton>
-                </Product>
-                <Product>
-                    <ProductImage src='https://arredo.qodeinteractive.com/wp-content/uploads/2018/05/product-img-6.jpg'></ProductImage>
-                    <ProductTitle>Cadeira de madeira</ProductTitle>
-                    <ProductPrice>R$199,90</ProductPrice>
-                    <AddButton>Adicionar ao carrinho</AddButton>
-                </Product>
-                <Product>
-                    <ProductImage src='https://arredo.qodeinteractive.com/wp-content/uploads/2018/05/product-img-6.jpg'></ProductImage>
-                    <ProductTitle>Cadeira de madeira</ProductTitle>
-                    <ProductPrice>R$199,90</ProductPrice>
-                    <AddButton>Adicionar ao carrinho</AddButton>
-                </Product>
-                <Product>
-                    <ProductImage src='https://arredo.qodeinteractive.com/wp-content/uploads/2018/05/product-img-6.jpg'></ProductImage>
-                    <ProductTitle>Cadeira de madeira</ProductTitle>
-                    <ProductPrice>R$199,90</ProductPrice>
-                    <AddButton>Adicionar ao carrinho</AddButton>
-                </Product>
+                {productsContent}
             </ProductsList>
             <Footer>
                 <AboutDiv>
@@ -87,6 +77,12 @@ export default function HomeDisplay() {
 
 const SingleSpacing = styled.div`
     margin-bottom: 7px;
+`;
+
+const Click = styled.div`
+    :hover{
+        cursor: pointer;
+    }
 `;
 
 const FooterTitle = styled.div`
@@ -124,60 +120,6 @@ const Footer = styled.div`
     display: flex;
     align-items: center;
     background-color: grey;
-`;
-
-const AddButton = styled.div`
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 300;
-    font-size: 15px;
-    box-sizing: border-box;
-    padding: 6px;
-    color: lightgrey;
-    border: 1px solid lightgray;
-    border-radius: 20px;
-    margin-bottom: 10px;
-    :hover{
-        color: white;
-        background-color: lightgrey;
-        cursor: pointer;
-    }
-`;
-
-const ProductPrice = styled.p`
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 300;
-    font-size: 15px;
-    color: #000000;
-    margin-bottom: 10px;
-`;
-const ProductTitle = styled.p`
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    color: #000000;
-    margin-top: 10px;
-    margin-bottom: 10px;
-`;
-
-const ProductImage = styled.img`
-    width: 275px;
-    height: 350px;
-    object-fit: cover;
-    object-position: center;
-    :hover{
-        box-shadow: 0px 0px 4px gray;
-    }
-`;
-
-const Product = styled.div`
-    width: 275px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 30px;
 `;
 
 const ProductsList = styled.div`
