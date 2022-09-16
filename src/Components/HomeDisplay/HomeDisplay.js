@@ -29,13 +29,19 @@ export default function HomeDisplay() {
     function getCart(){
         navigate('/cart');
     }
+    function getAbout(){
+        navigate('/about');
+    }
     return (
         <Content>
             <Header>
-                <Click onClick={getHome}>JOLLY</Click>
+                <Click onClick={getAbout}>JOLLY</Click>
                 <Icons>
                     <Icon>
                         <ion-icon name="home" onClick={getHome}></ion-icon>
+                    </Icon>
+                    <Icon>
+                        <ion-icon name="information-circle" onClick={getAbout}></ion-icon>
                     </Icon>
                     <Icon>
                         <ion-icon name="cart" onClick={getCart}></ion-icon>
@@ -227,7 +233,7 @@ const Icons = styled.div`
     font-size: 25px;
     display: flex;
     justify-content: space-between;
-    width: 110px;
+    width: 140px;
 `;
 
 const Header = styled.div`

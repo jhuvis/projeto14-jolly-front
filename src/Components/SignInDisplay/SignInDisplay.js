@@ -63,7 +63,11 @@ const BackHome = styled.div`
     position: absolute;
     font-size: 40px;
     top: 65px;
-    left: 9%;
+    left: 9%; 
+    :hover{
+        color: gray;
+        cursor: pointer;
+    }
 `;
 
 const Centering = styled.div`
