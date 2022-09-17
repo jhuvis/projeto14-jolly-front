@@ -124,20 +124,20 @@ export default function Carts() {
         <Content>
         <Topo>
                 <img src="https://arredo.qodeinteractive.com/wp-content/uploads/2018/05/cart-title-img.jpg"/>               
-                <h1>Cart</h1>
+                <h1>Carrinho</h1>
         </Topo>
         <Corpo display={corpo}>
-            <h1>Your cart is currently empty.</h1>
-            <Link to={"/"}><Buttom>Return to shop</Buttom></Link>
+            <h1>Carrinho vazio.</h1>
+            <Link to={"/"}><Buttom>Retornar menu</Buttom></Link>
         </Corpo>
         
         <Carrinho display={carro}>
         <Seila>
             <TopoCart >
                 <div></div>
-                <div>Product</div>
-                <div>Price</div>
-                <div>Quantity</div>
+                <div>Produto</div>
+                <div>Preço</div>
+                <div>Quantidade</div>
                 <div>Total</div>
             </TopoCart>
             {carts.map((cart, index) => <Cart
@@ -153,15 +153,15 @@ export default function Carts() {
         
         </Seila>
         <Baixo>
-            <Buttom onClick={() => updateCart()}>Update cart</Buttom>
+            <Buttom onClick={() => updateCart()}>Atualizar carrinho</Buttom>
         </Baixo>
         <Total>
-            <h1>Cart Total</h1>
+            <h1>Total do carrinho</h1>
             <Totais>
                 <div><h3>Total</h3></div>
                 <div><h3>${total.toFixed(2)}</h3></div>
             </Totais>
-            <Link to={"/checkout"}><Buttom>Proceed to checkout</Buttom></Link> 
+            <Link to={"/checkout"}><Buttom>Finalizar compra</Buttom></Link> 
         </Total>  
         </Carrinho>
         </Content>
