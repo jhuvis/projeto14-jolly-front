@@ -1,7 +1,6 @@
 import styled from 'styled-components';
-import { useNavigate , Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
 import { postSignUp } from '../../service/api';
 

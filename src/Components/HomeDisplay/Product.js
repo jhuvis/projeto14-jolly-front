@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import { useContext, useEffect } from "react";
-import UserContext from "../../contexts/UserContext";
+import { useEffect } from "react";
 import { getCart, putInTheCart } from '../../service/api';
 import { useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
@@ -8,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 
 export default function Product(props){
     const navigate = useNavigate();
-    const { tasks, setTasks } = useContext(UserContext);
     const [isLoading, setIsLoading] = useState(false);
     const [itsInTheCart, setItsInTheCart] = useState(false);
     useEffect(() => {

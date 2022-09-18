@@ -282,28 +282,6 @@ const CartNumber = styled.div`
     border: solid 0.5px white;
 `;
 
-const TitleAbout = styled.p`
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 25px;
-    color: #000000;
-    margin-left: 5%;
-    margin-right: 5%;
-    margin-bottom: 20px;
-    margin-top: 20px;
-`;
-
-const TextAbout = styled.p`
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 300;
-    font-size: 19px;
-    color: #000000;
-    margin-left: 5%;
-    margin-right: 5%; 
-`;
-
 const Spacing = styled.div`
     margin-top: 140px;
 `;
