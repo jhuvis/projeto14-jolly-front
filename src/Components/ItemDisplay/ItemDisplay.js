@@ -74,7 +74,7 @@ export default function ItemDisplay() {
                 navigate('/cart');
             }else{
                 putItemInTheCart();
-                navigate('/cart');
+                setTimeout(()=>{navigate('/cart')},50);
             }
         }else{
             navigate('/sign-in');
