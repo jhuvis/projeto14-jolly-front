@@ -110,7 +110,7 @@ export default function Carts() {
     return (
         <>
         <Header>
-                <Click onClick={getAbout}>JOLLY</Click>
+                <Click onClick={getHome}>JOLLY</Click>
                 <Icons>
                     <Icon>
                         <ion-icon name="home" onClick={getHome}></ion-icon>
@@ -180,7 +180,7 @@ export default function Carts() {
             <h1>Total do carrinho</h1>
             <Totais>
                 <div><h3>Total</h3></div>
-                <div><h3>${total.toFixed(2)}</h3></div>
+                <div><h3>R${total.toFixed(2)}</h3></div>
             </Totais>
             <Link to={"/checkout"}><Buttom>Finalizar compra</Buttom></Link> 
         </Total>  
@@ -258,7 +258,7 @@ justify-content: flex-start;
 flex-direction: column;
 
 h1{
-    font-family: 'Raleway';
+    font-family: 'Poppins';
     font-weight: 700;
     font-size: 40px;
     margin-bottom: 65px;
@@ -277,7 +277,7 @@ padding-top: 25px;
 padding-bottom: 25px;
 margin-bottom: 45px;
 h3{
-    font-family: 'Raleway';
+    font-family: 'Poppins';
     font-weight: 600;
     font-size: 18px;
 }
@@ -307,7 +307,7 @@ margin-bottom: 20px;
 
 div{
     
-    font-family: 'Raleway';
+    font-family: 'Poppins';
     font-weight: 700;
     font-size: 25px;
 }
@@ -325,7 +325,7 @@ align-items: center;
 justify-content: center;
 background-color: black;
 color: white;
-font-family: 'Raleway';
+font-family: 'Poppins';
 font-size: 19px;
 padding: 19px;
 border-radius: 3px;
@@ -351,7 +351,7 @@ text-align: center;
 
 
 h1{
-    font-family: 'Raleway';
+    font-family: 'Poppins';
     font-weight: 400;
     font-size: 40px;
     margin-bottom: 40px;
@@ -390,7 +390,7 @@ const Topo = styled.div`
     h1{
     display: flex;
     position: absolute;
-    font-family: 'Raleway';
+    font-family: 'Poppins';
     font-weight: 600;
     color: #FFFFFF;
     font-size: 55px;

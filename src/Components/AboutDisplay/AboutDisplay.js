@@ -11,7 +11,7 @@ export default function AboutDisplay() {
     const [itemsNumber, setItemsNumber] = useState(0);
     const { tasks, setTasks } = useContext(UserContext);
     useEffect(() => {
-        if(tasks.length !== 0){
+        if(localStorage.getItem("token") !== null){
             setIsLoged(true);
             let token = localStorage.getItem("token");
             getCart(token).then((answer)=>{
@@ -41,7 +41,7 @@ export default function AboutDisplay() {
     return (
         <Content>
             <Header>
-                <Click onClick={getAbout}>JOLLY</Click>
+                <Click onClick={getHome}>JOLLY</Click>
                 <Icons>
                     <Icon>
                         <ion-icon name="home" onClick={getHome}></ion-icon>
@@ -90,8 +90,12 @@ export default function AboutDisplay() {
             </TitleAbout>
             <TextAbout>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vehicula nec purus a placerat. Nam mattis malesuada nisl, at finibus sem ornare id. Praesent vel purus et eros pharetra consequat. Donec eleifend mattis purus vel cursus. Etiam eu hendrerit lorem. Curabitur pharetra tortor eu libero imperdiet tincidunt. Sed sed ultricies nunc.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vehicula nec purus a placerat. Nam mattis malesuada nisl, at finibus sem ornare id. Praesent vel purus et eros pharetra consequat. Donec eleifend mattis purus vel cursus. Etiam eu hendrerit lorem. Curabitur pharetra tortor eu libero imperdiet tincidunt. Sed sed ultricies nunc.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vehicula nec purus a placerat. Nam mattis malesuada nisl, at finibus sem ornare id. Praesent vel purus et eros pharetra consequat. Donec eleifend mattis purus vel cursus. Etiam eu hendrerit lorem. Curabitur pharetra tortor eu libero imperdiet tincidunt. Sed sed ultricies nunc.
+            
             </TextAbout>
-
+            
+            <FooterSpace></FooterSpace>
 
             <Footer>
                 <AboutDiv>
@@ -152,6 +156,10 @@ const Spacing = styled.div`
     margin-top: 100px;
 `;
 
+const FooterSpace = styled.div`
+    height: 50px;
+`;
+
 const SingleSpacing = styled.div`
     margin-bottom: 7px;
 `;
@@ -205,8 +213,6 @@ const Footer = styled.div`
     display: flex;
     align-items: center;
     background-color: grey;
-    position: absolute;
-    bottom: 0px;
 `;
 
 const Icons = styled.div`
@@ -241,7 +247,6 @@ const Header = styled.div`
 
 const Content = styled.div`
     width: 100vw;
-    height: 100vh;
 	display: flex;
     flex-direction: column;
     box-sizing: border-box;
