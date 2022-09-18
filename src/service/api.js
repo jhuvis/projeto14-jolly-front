@@ -62,3 +62,12 @@ export function deleteCart(token, body){
     );
     return requisition;
 }
+
+export function checkoutCart(token, body){
+    const requisition = axios.post(
+        `${URL}/checkout`,
+        body, 
+        headerCreator(token)
+    );
+    return requisition;
+}

@@ -6,6 +6,7 @@ import Carts from "../Cart/Carts";
 import SignInDisplay from "../SignInDisplay/SignInDisplay";
 import SignUpDisplay from "../SignUpDisplay/SignUpDisplay";
 import AboutDisplay from "../AboutDisplay/AboutDisplay";
+import Checkout from "../Checkout/Checkout";
 
 export default function App(){
     const [tasks, setTasks] = useState([]);
@@ -18,6 +19,7 @@ export default function App(){
                     <Route path="/sign-in" element={<SignInDisplay />} />
                     <Route path="/sign-up" element={<SignUpDisplay />} />
                     <Route path="/about" element={<AboutDisplay />} />
+                    <Route path="/checkout" element={<Checkout />} />
                 </Routes>
 		    </BrowserRouter>
         </UserContext.Provider>
