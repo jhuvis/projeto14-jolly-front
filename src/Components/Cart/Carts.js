@@ -15,13 +15,14 @@ export default function Carts() {
     const [carts, setCarts] = useState([]);
 
     const [total, setTotal] = useState(0);
-    const [att, setAtt] = useState(0);
+    const [att, setAtt] = useState(0); 
     
     
     let token = localStorage.getItem("token");
-    console.log(token);
     const { tasks, setTasks } = useContext(UserContext);
     const navigate = useNavigate();
+    let isLoged = true;
+
 
     useEffect(() => {
         let isApiSubscribed = true;
@@ -62,7 +63,6 @@ export default function Carts() {
 
       function updateCart()
       {
-        console.log(qtd);
         for(let i = 0; i < qtd.length; i++)
         {
             if(qtd[i])
@@ -101,11 +101,16 @@ export default function Carts() {
     function getAbout(){
         navigate('/about');
     }
+    function logOut(){
+        setTasks([]);
+        localStorage.setItem("token", '');
+        navigate('/');
+    }
     
     return (
         <>
         <Header>
-                <Click onClick={getHome}>JOLLY</Click>
+                <Click onClick={getAbout}>JOLLY</Click>
                 <Icons>
                     <Icon>
                         <ion-icon name="home" onClick={getHome}></ion-icon>
@@ -113,12 +118,25 @@ export default function Carts() {
                     <Icon>
                         <ion-icon name="information-circle" onClick={getAbout}></ion-icon>
                     </Icon>
+                    { isLoged ? (
+                        <Icon>
+                            <ion-icon name="cart" onClick={goCart}></ion-icon>
+                            <CartNumber>{carts.length}</CartNumber>
+                        </Icon>
+                    ) : (
+                        <Icon>
+                            <ion-icon name="cart" onClick={goCart}></ion-icon>
+                        </Icon>
+                    )}
+                    { isLoged ? (
                     <Icon>
-                        <ion-icon name="cart" onClick={goCart}></ion-icon>
+                        <ion-icon name="log-out" onClick={logOut}></ion-icon>
                     </Icon>
+                    ) : (
                     <Icon>
                         <ion-icon name="person" onClick={getSignIn}></ion-icon>
                     </Icon>
+                    )}
                 </Icons>
             </Header>
         <Content>
@@ -148,7 +166,10 @@ export default function Carts() {
                 upQtd={upQtd}
                 index = {index}
                 _id = {cart._id}
-                key={index} />)}
+                key={index}
+                att={att}
+                setAtt={setAtt}
+                 />)}
  
         
         </Seila>
@@ -175,11 +196,29 @@ const Click = styled.div`
     }
 `;
 
+const CartNumber = styled.div`
+    position: absolute;
+    height: 10px;
+    width: 10px;
+    font-size: 6px;
+    line-height: 7px;
+    color: white;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 1.3px;
+    right: -1.5px;
+    border-radius: 50%;
+    border: solid 0.5px white;
+`;
+
 const Icon = styled.div`
     :hover{
         color: gray;
         cursor: pointer;
     }
+    position: relative;
 `;
 
 const Icons = styled.div`
@@ -294,6 +333,7 @@ border: 1px solid;
 :hover {
   background-color: white;
   color: black;
+  cursor: pointer;
 }
  `;
 
@@ -336,7 +376,7 @@ const Topo = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 69px;
+    margin-top: 75px;
     margin-bottom: 35px;
     width: 100%;
     background-position: center;

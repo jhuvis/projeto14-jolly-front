@@ -18,8 +18,7 @@ export default function Cart(props) {
 
     function deleta()
     {
-        console.log(_id);
-        const body = {
+        const body = { 
             _id: _id
         }
 
@@ -27,7 +26,7 @@ export default function Cart(props) {
 
         requisicao.then((e) => 
         {
-            window.location.reload(); 
+            props.setAtt(props.att+1);
         });
         requisicao.catch((e) => {
             
@@ -37,9 +36,9 @@ export default function Cart(props) {
     
     return (
         <Content>
-            <div onClick={() => deleta()}>X</div>
+            <Click onClick={() => deleta()}>X</Click>
             <Product><img src={img}/><div>{name}</div></Product>
-            <div>${price.toFixed(2)}</div>
+            <div>R${parseFloat(price).toFixed(2)}</div>
             <div><Input
                     type="number"
                     id="number"
@@ -52,10 +51,17 @@ export default function Cart(props) {
                     }}
                     disabled={!carrega}
                     required /></div>
-            <div>${total.toFixed(2)}</div>
+            <div>R${total.toFixed(2)}</div>
         </Content>
     );
-}
+} 
+
+const Click = styled.div`
+    :hover{
+        cursor: pointer;
+        color: black;
+    }
+`;
 
 const Product = styled.div`
 display: flex;
@@ -81,6 +87,7 @@ font-weight: 400;
 font-size: 18px;
 border-radius: 5px;
 text-align: center;
+margin-right: 20px;
 `;
 
 const Content = styled.div`

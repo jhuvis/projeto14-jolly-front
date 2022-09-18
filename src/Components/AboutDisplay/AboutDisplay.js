@@ -1,24 +1,47 @@
 import styled from 'styled-components';
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import UserContext from "../../contexts/UserContext";
+import { useState, useEffect } from "react";
+import { getCart } from '../../service/api';
 
 export default function AboutDisplay() {
     const navigate = useNavigate();
+    const [isLoged, setIsLoged] = useState(false);
+    const [itemsNumber, setItemsNumber] = useState(0);
+    const { tasks, setTasks } = useContext(UserContext);
+    useEffect(() => {
+        if(tasks.length !== 0){
+            setIsLoged(true);
+            let token = localStorage.getItem("token");
+            getCart(token).then((answer)=>{
+                setItemsNumber(answer.data.length);
+            }).catch(() => {
+                alert("Erro ao carregar os produtos no carrinho! Tente novamente!");
+            });
+        }
+    }, []);
     function getHome(){
         navigate('/');
     }
     function getSignIn(){
         navigate('/sign-in');
     }
-    function getCart(){
+    function goCart(){
         navigate('/cart');
     }
     function getAbout(){
         navigate('/about');
     }
+    function logOut(){
+        setTasks([]);
+        localStorage.setItem("token", '');
+        setIsLoged(false);
+    }
     return (
         <Content>
             <Header>
-                <Click onClick={getHome}>JOLLY</Click>
+                <Click onClick={getAbout}>JOLLY</Click>
                 <Icons>
                     <Icon>
                         <ion-icon name="home" onClick={getHome}></ion-icon>
@@ -26,12 +49,25 @@ export default function AboutDisplay() {
                     <Icon>
                         <ion-icon name="information-circle" onClick={getAbout}></ion-icon>
                     </Icon>
+                    { isLoged ? (
+                        <Icon>
+                            <ion-icon name="cart" onClick={goCart}></ion-icon>
+                            <CartNumber>{itemsNumber}</CartNumber>
+                        </Icon>
+                    ) : (
+                        <Icon>
+                            <ion-icon name="cart" onClick={goCart}></ion-icon>
+                        </Icon>
+                    )}
+                    { isLoged ? (
                     <Icon>
-                        <ion-icon name="cart" onClick={getCart}></ion-icon>
+                        <ion-icon name="log-out" onClick={logOut}></ion-icon>
                     </Icon>
+                    ) : (
                     <Icon>
                         <ion-icon name="person" onClick={getSignIn}></ion-icon>
                     </Icon>
+                    )}
                 </Icons>
             </Header>
             <Spacing></Spacing>
@@ -54,8 +90,6 @@ export default function AboutDisplay() {
             </TitleAbout>
             <TextAbout>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vehicula nec purus a placerat. Nam mattis malesuada nisl, at finibus sem ornare id. Praesent vel purus et eros pharetra consequat. Donec eleifend mattis purus vel cursus. Etiam eu hendrerit lorem. Curabitur pharetra tortor eu libero imperdiet tincidunt. Sed sed ultricies nunc.
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vehicula nec purus a placerat. Nam mattis malesuada nisl, at finibus sem ornare id. Praesent vel purus et eros pharetra consequat. Donec eleifend mattis purus vel cursus. Etiam eu hendrerit lorem. Curabitur pharetra tortor eu libero imperdiet tincidunt. Sed sed ultricies nunc.
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vehicula nec purus a placerat. Nam mattis malesuada nisl, at finibus sem ornare id. Praesent vel purus et eros pharetra consequat. Donec eleifend mattis purus vel cursus. Etiam eu hendrerit lorem. Curabitur pharetra tortor eu libero imperdiet tincidunt. Sed sed ultricies nunc.
             </TextAbout>
 
 
@@ -74,6 +108,23 @@ export default function AboutDisplay() {
         </Content>
     );
 }
+
+const CartNumber = styled.div`
+    position: absolute;
+    height: 10px;
+    width: 10px;
+    font-size: 6px;
+    line-height: 7px;
+    color: white;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 1.3px;
+    right: -1.5px;
+    border-radius: 50%;
+    border: solid 0.5px white;
+`;
 
 const TitleAbout = styled.p`
     font-family: 'Poppins';
@@ -98,7 +149,7 @@ const TextAbout = styled.p`
 `;
 
 const Spacing = styled.div`
-    margin-top: 130px;
+    margin-top: 100px;
 `;
 
 const SingleSpacing = styled.div`
@@ -116,6 +167,7 @@ const Icon = styled.div`
         color: gray;
         cursor: pointer;
     }
+    position: relative;
 `;
 
 const FooterTitle = styled.div`
