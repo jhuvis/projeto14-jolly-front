@@ -18,7 +18,7 @@ export default function HomeDisplay() {
         getProducts().then(renderProducts).catch(() => {
             alert("Erro ao carregar os produtos! Tente novamente!");
         });
-        if(tasks.length !== 0){
+        if(localStorage.getItem("token") !== null){
             let token = localStorage.getItem("token");
             getCart(token).then((answer)=>{
                 setItemsNumber(answer.data.length);
@@ -32,7 +32,7 @@ export default function HomeDisplay() {
         setProductsContent(<>
             {productsList.map((product,index) => <Product key={index} name={product.name} image={product.image} price={product.price} refreshDisplay={refreshDisplay} setRefreshDisplay={setRefreshDisplay}/>)}
         </>);
-        if(tasks.length !== 0){
+        if(localStorage.getItem("token") !== null){
             setIsLoged(true);
         }else{
             setIsLoged(false);
@@ -50,7 +50,7 @@ export default function HomeDisplay() {
         }
     }
     function goCart(){
-        if(tasks.length !== 0){
+        if(localStorage.getItem("token") !== null){
             navigate('/cart');
         }else{
             navigate('/sign-in');

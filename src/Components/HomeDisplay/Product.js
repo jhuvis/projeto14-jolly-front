@@ -12,7 +12,7 @@ export default function Product(props){
     const [isLoading, setIsLoading] = useState(false);
     const [itsInTheCart, setItsInTheCart] = useState(false);
     useEffect(() => {
-        if(tasks.length !== 0){
+        if(localStorage.getItem("token") !== null){
             let token = localStorage.getItem("token");
             getCart(token).then((answer)=>{
                 let cartArray = answer.data;
@@ -29,10 +29,7 @@ export default function Product(props){
     function putItemInTheCart(){
         setIsLoading(true);
         let token = localStorage.getItem("token");
-        if(tasks.length === 0){
-            setIsLoading(false);
-            navigate("/sign-in");
-        }else{
+        if(localStorage.getItem("token") !== null){
             putInTheCart({
                 name: props.name,
                 price: props.price,
@@ -47,6 +44,9 @@ export default function Product(props){
                 setIsLoading(false);
                 console.error(err);
             });
+        }else{
+            setIsLoading(false);
+            navigate("/sign-in");
         }
     }
     function getItem(){
@@ -57,7 +57,7 @@ export default function Product(props){
             <ProductAlone>
                 <ProductImage src={props.image} onClick={getItem}></ProductImage>
                 <ProductTitle onClick={getItem}>{props.name}</ProductTitle>
-                <ProductPrice onClick={getItem}>R${props.price}</ProductPrice>
+                <ProductPrice onClick={getItem}>R${parseFloat(props.price).toFixed(2)}</ProductPrice>
                 {isLoading ?
                 (<AddButton disabled><ThreeDots 
                 color={'gray'} 
