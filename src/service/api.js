@@ -62,3 +62,26 @@ export function deleteCart(token, body){
     );
     return requisition;
 }
+
+export function checkoutCart(token, body){
+    const requisition = axios.post(
+        `${URL}/checkout`,
+        body, 
+        headerCreator(token)
+    );
+    return requisition;
+}
+
+
+setInterval(atualizarStatus, 5000);
+
+function atualizarStatus() {
+    let token = localStorage.getItem("token");
+    if(token)
+    {
+        axios.post(`${URL}/status`, {}, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+    }
+    
+  };
