@@ -1,11 +1,17 @@
 import styled from 'styled-components';
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import UserContext from "../../contexts/UserContext";
 
 
 
-export default function Header() {
+export default function Header(props) {
 
+    const {qtd} = {...props};
+    const { tasks, setTasks } = useContext(UserContext);
     const navigate = useNavigate();
+    let isLoged = true;
+
 
     function getHome()
     {
@@ -20,25 +26,42 @@ export default function Header() {
     function getAbout(){
         navigate('/about');
     }
-
+    function logOut(){
+        setTasks([]);
+        localStorage.setItem("token", '');
+        navigate('/');
+    }
 return (
 
     <Head>
             <Click onClick={getHome}>JOLLY</Click>
-            <Icons>
-                <Icon>
-                    <ion-icon name="home" onClick={getHome}></ion-icon>
-                </Icon>
-                <Icon>
-                    <ion-icon name="information-circle" onClick={getAbout}></ion-icon>
-                </Icon>
-                <Icon>
-                    <ion-icon name="cart" onClick={goCart}></ion-icon>
-                </Icon>
-                <Icon>
-                    <ion-icon name="person" onClick={getSignIn}></ion-icon>
-                </Icon>
-            </Icons>
+                <Icons>
+                    <Icon>
+                        <ion-icon name="home" onClick={getHome}></ion-icon>
+                    </Icon>
+                    <Icon>
+                        <ion-icon name="information-circle" onClick={getAbout}></ion-icon>
+                    </Icon>
+                    { isLoged ? (
+                        <Icon>
+                            <ion-icon name="cart" onClick={goCart}></ion-icon>
+                            <CartNumber>{qtd}</CartNumber>
+                        </Icon>
+                    ) : (
+                        <Icon>
+                            <ion-icon name="cart" onClick={goCart}></ion-icon>
+                        </Icon>
+                    )}
+                    { isLoged ? (
+                    <Icon>
+                        <ion-icon name="log-out" onClick={logOut}></ion-icon>
+                    </Icon>
+                    ) : (
+                    <Icon>
+                        <ion-icon name="person" onClick={getSignIn}></ion-icon>
+                    </Icon>
+                    )}
+                </Icons>
         </Head>
         ); 
 }
@@ -49,11 +72,29 @@ const Click = styled.div`
     }
 `;
 
+const CartNumber = styled.div`
+    position: absolute;
+    height: 10px;
+    width: 10px;
+    font-size: 6px;
+    line-height: 7px;
+    color: white;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 1.3px;
+    right: -1.5px;
+    border-radius: 50%;
+    border: solid 0.5px white;
+`;
+
 const Icon = styled.div`
     :hover{
         color: gray;
         cursor: pointer;
     }
+    position: relative;
 `;
 
 const Icons = styled.div`

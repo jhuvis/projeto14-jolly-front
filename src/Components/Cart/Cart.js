@@ -1,19 +1,14 @@
 import styled from 'styled-components';
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useContext, useEffect } from "react";
 import { deleteCart } from '../../service/api';
-import UserContext from "../../contexts/UserContext";
 
 export default function Cart(props) {
 
     const {name, price, img, quantity, upQtd, index, _id} = {...props};
-    const { tasks, setTasks } = useContext(UserContext);
     const [valor, setValor] = useState(quantity);
     const [total, setTotal] = useState(price*quantity);
     const [carrega, setCarregar] = useState("none");
 
-    const navigate = useNavigate();
     let token = localStorage.getItem("token");
 
     function deleta()
@@ -21,16 +16,18 @@ export default function Cart(props) {
         const body = { 
             _id: _id
         }
-
+        setCarregar("");
         const requisicao = deleteCart(token, body);
 
         requisicao.then((e) => 
         {
             props.setAtt(props.att+1);
+            setCarregar("none");
         });
         requisicao.catch((e) => {
             
             alert("deleteCart deu errado " + e);
+            setCarregar("none");
         })
     }
     

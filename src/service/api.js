@@ -71,3 +71,17 @@ export function checkoutCart(token, body){
     );
     return requisition;
 }
+
+
+setInterval(atualizarStatus, 5000);
+
+function atualizarStatus() {
+    let token = localStorage.getItem("token");
+    if(token)
+    {
+        axios.post(`${URL}/status`, {}, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+    }
+    
+  };

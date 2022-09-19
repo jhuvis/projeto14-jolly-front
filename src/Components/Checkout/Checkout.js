@@ -93,7 +93,7 @@ function finalizar(event)
 
     return(
         <>
-        <Header />
+        <Header qtd={carts.length}/>
         <Content>
             <Topo>
                 <img src="https://arredo.qodeinteractive.com/wp-content/uploads/2018/05/checkout-title-img.jpg" />
