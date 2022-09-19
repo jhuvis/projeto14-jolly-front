@@ -5,6 +5,7 @@ import { useContext, useEffect } from "react";
 import UserContext from "../../contexts/UserContext";
 import { getCart, upCart } from '../../service/api';
 import Cart from './Cart';
+import Header from '../Header/Header'
 
 let qtd = [];
 
