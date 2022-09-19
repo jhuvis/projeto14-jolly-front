@@ -10,10 +10,10 @@ export default function AboutDisplay() {
     const [isLoged, setIsLoged] = useState(false);
     const [itemsNumber, setItemsNumber] = useState(0);
     const { tasks, setTasks } = useContext(UserContext);
+    const token = localStorage.getItem('token');
     useEffect(() => {
-        if(localStorage.getItem("token") !== null){
+        if(token){
             setIsLoged(true);
-            let token = localStorage.getItem("token");
             getCart(token).then((answer)=>{
                 setItemsNumber(answer.data.length);
             }).catch(() => {

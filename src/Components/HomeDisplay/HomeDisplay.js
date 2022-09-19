@@ -6,6 +6,8 @@ import Product from './Product';
 import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 
+
+
 export default function HomeDisplay() {
     const navigate = useNavigate();
     const [productsContent, setProductsContent] = useState(<></>);
@@ -13,26 +15,25 @@ export default function HomeDisplay() {
     const [itemsNumber, setItemsNumber] = useState(0);
     const [refreshDisplay, setRefreshDisplay] = useState(false);
     const { tasks, setTasks } = useContext(UserContext);
-    let productsList;
+    const token = localStorage.getItem('token');
     useEffect(() => {
         getProducts().then(renderProducts).catch(() => {
             alert("Erro ao carregar os produtos! Tente novamente!");
         });
-        if(localStorage.getItem("token") !== null){
-            let token = localStorage.getItem("token");
+        if(token){
             getCart(token).then((answer)=>{
                 setItemsNumber(answer.data.length);
             }).catch(() => {
-                alert("Erro ao carregar os produtos no carrinho! Tente novamente!");
+                localStorage.setItem("token", '');
             });
         }
     }, [refreshDisplay]);
     function renderProducts(answer) {
-        productsList=answer.data;
+        let productsList=answer.data;
         setProductsContent(<>
             {productsList.map((product,index) => <Product key={index} name={product.name} image={product.image} price={product.price} refreshDisplay={refreshDisplay} setRefreshDisplay={setRefreshDisplay}/>)}
         </>);
-        if(localStorage.getItem("token") !== null){
+        if(token){
             setIsLoged(true);
         }else{
             setIsLoged(false);
@@ -50,7 +51,7 @@ export default function HomeDisplay() {
         }
     }
     function goCart(){
-        if(localStorage.getItem("token") !== null){
+        if(token){
             navigate('/cart');
         }else{
             navigate('/sign-in');

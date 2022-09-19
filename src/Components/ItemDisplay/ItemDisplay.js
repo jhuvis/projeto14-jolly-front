@@ -16,6 +16,7 @@ export default function ItemDisplay() {
     const [isLoading, setIsLoading] = useState(false);
     const [itsInTheCart, setItsInTheCart] = useState(false);
     const [refreshDisplay, setRefreshDisplay] = useState(false);
+    const token = localStorage.getItem('token');
     useEffect(() => {
         let productName;
         getProducts().then((answer)=>{
@@ -29,9 +30,8 @@ export default function ItemDisplay() {
         }).catch(() => {
             alert("Erro ao carregar os produtos! Tente novamente!");
         });
-        if(localStorage.getItem("token") !== null){
+        if(token){
             setIsLoged(true);
-            let token = localStorage.getItem("token");
             getCart(token).then((answer)=>{
                 setItemsNumber(answer.data.length);
                 let cartArray = answer.data;
@@ -47,8 +47,7 @@ export default function ItemDisplay() {
     }, [refreshDisplay]);
     function putItemInTheCart(){
         setIsLoading(true);
-        let token = localStorage.getItem("token");
-        if(localStorage.getItem("token") === null){
+        if(!token){
             setIsLoading(false);
             navigate("/sign-in");
         }else{
@@ -87,7 +86,7 @@ export default function ItemDisplay() {
         navigate('/sign-in');
     }
     function goCart(){
-        if(localStorage.getItem("token") !== null){
+        if(token){
             navigate('/cart');
         }else{
             navigate('/sign-in');

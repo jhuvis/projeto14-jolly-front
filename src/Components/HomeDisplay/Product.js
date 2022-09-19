@@ -9,9 +9,9 @@ export default function Product(props){
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [itsInTheCart, setItsInTheCart] = useState(false);
+    const token = localStorage.getItem("token");
     useEffect(() => {
-        if(localStorage.getItem("token") !== null){
-            let token = localStorage.getItem("token");
+        if(token){
             getCart(token).then((answer)=>{
                 let cartArray = answer.data;
                 cartArray.forEach(product => {
@@ -26,8 +26,7 @@ export default function Product(props){
     }, []);
     function putItemInTheCart(){
         setIsLoading(true);
-        let token = localStorage.getItem("token");
-        if(localStorage.getItem("token") !== null){
+        if(token){
             putInTheCart({
                 name: props.name,
                 price: props.price,

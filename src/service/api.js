@@ -77,11 +77,11 @@ setInterval(atualizarStatus, 5000);
 
 function atualizarStatus() {
     let token = localStorage.getItem("token");
-    if(token)
+    if(token !== '')
     {
         axios.post(`${URL}/status`, {}, {
             headers: { Authorization: `Bearer ${token}` }
-        });
+        }).then().catch(()=>{localStorage.setItem('token', '')});
     }
     
   };

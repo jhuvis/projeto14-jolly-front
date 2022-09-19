@@ -19,7 +19,7 @@ export default function Carts() {
     const [att, setAtt] = useState(0); 
     
     
-    let token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
 
     useEffect(() => {
