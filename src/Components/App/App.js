@@ -6,6 +6,7 @@ import Carts from "../Cart/Carts";
 import SignInDisplay from "../SignInDisplay/SignInDisplay";
 import SignUpDisplay from "../SignUpDisplay/SignUpDisplay";
 import AboutDisplay from "../AboutDisplay/AboutDisplay";
+import ItemDisplay from "../ItemDisplay/ItemDisplay";
 import Checkout from "../Checkout/Checkout";
 
 export default function App(){
@@ -19,6 +20,7 @@ export default function App(){
                     <Route path="/sign-in" element={<SignInDisplay />} />
                     <Route path="/sign-up" element={<SignUpDisplay />} />
                     <Route path="/about" element={<AboutDisplay />} />
+                    <Route path="/item/:idItem" element={<ItemDisplay />} />
                     <Route path="/checkout" element={<Checkout />} />
                 </Routes>
 		    </BrowserRouter>

@@ -1,7 +1,8 @@
 import styled from 'styled-components';
-import {  Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
-import {  useEffect } from "react";
+import { useContext, useEffect } from "react";
+import UserContext from "../../contexts/UserContext";
 import { getCart, upCart } from '../../service/api';
 import Cart from './Cart';
 import Header from '../Header/Header'
@@ -15,11 +16,14 @@ export default function Carts() {
     const [carts, setCarts] = useState([]);
 
     const [total, setTotal] = useState(0);
-    const [att, setAtt] = useState(0);
+    const [att, setAtt] = useState(0); 
     
     
     let token = localStorage.getItem("token");
-    console.log(token);
+    const { tasks, setTasks } = useContext(UserContext);
+    const navigate = useNavigate();
+    let isLoged = true;
+
 
     useEffect(() => {
         let isApiSubscribed = true;
@@ -60,7 +64,6 @@ export default function Carts() {
 
       function updateCart()
       {
-        console.log(qtd);
         for(let i = 0; i < qtd.length; i++)
         {
             if(qtd[i])
@@ -85,10 +88,58 @@ export default function Carts() {
         setAtt(att+1);
         qtd = [];
       }
+
+    function getHome()
+    {
+        navigate('/');
+    }
+    function getSignIn(){
+        navigate('/sign-in');
+    }
+    function goCart(){
+        navigate('/cart');
+    }
+    function getAbout(){
+        navigate('/about');
+    }
+    function logOut(){
+        setTasks([]);
+        localStorage.setItem("token", '');
+        navigate('/');
+    }
     
     return (
         <>
-        <Header />
+        <Header>
+                <Click onClick={getHome}>JOLLY</Click>
+                <Icons>
+                    <Icon>
+                        <ion-icon name="home" onClick={getHome}></ion-icon>
+                    </Icon>
+                    <Icon>
+                        <ion-icon name="information-circle" onClick={getAbout}></ion-icon>
+                    </Icon>
+                    { isLoged ? (
+                        <Icon>
+                            <ion-icon name="cart" onClick={goCart}></ion-icon>
+                            <CartNumber>{carts.length}</CartNumber>
+                        </Icon>
+                    ) : (
+                        <Icon>
+                            <ion-icon name="cart" onClick={goCart}></ion-icon>
+                        </Icon>
+                    )}
+                    { isLoged ? (
+                    <Icon>
+                        <ion-icon name="log-out" onClick={logOut}></ion-icon>
+                    </Icon>
+                    ) : (
+                    <Icon>
+                        <ion-icon name="person" onClick={getSignIn}></ion-icon>
+                    </Icon>
+                    )}
+                </Icons>
+            </Header>
         <Content>
         <Topo>
                 <img src="https://arredo.qodeinteractive.com/wp-content/uploads/2018/05/cart-title-img.jpg"/>               
@@ -116,7 +167,10 @@ export default function Carts() {
                 upQtd={upQtd}
                 index = {index}
                 _id = {cart._id}
-                key={index} />)}
+                key={index}
+                att={att}
+                setAtt={setAtt}
+                 />)}
  
         
         </Seila>
@@ -127,7 +181,7 @@ export default function Carts() {
             <h1>Total do carrinho</h1>
             <Totais>
                 <div><h3>Total</h3></div>
-                <div><h3>${total.toFixed(2)}</h3></div>
+                <div><h3>R${total.toFixed(2)}</h3></div>
             </Totais>
             <Link to={"/checkout"}><Buttom>Finalizar compra</Buttom></Link> 
         </Total>  
@@ -137,6 +191,66 @@ export default function Carts() {
     );
 }
 
+const Click = styled.div`
+    :hover{
+        cursor: pointer;
+    }
+`;
+
+const CartNumber = styled.div`
+    position: absolute;
+    height: 10px;
+    width: 10px;
+    font-size: 6px;
+    line-height: 7px;
+    color: white;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 1.3px;
+    right: -1.5px;
+    border-radius: 50%;
+    border: solid 0.5px white;
+`;
+
+const Icon = styled.div`
+    :hover{
+        color: gray;
+        cursor: pointer;
+    }
+    position: relative;
+`;
+
+const Icons = styled.div`
+    font-size: 25px;
+    display: flex;
+    justify-content: space-between;
+    width: 140px;
+`;
+
+const Header = styled.div`
+    width: 100%;
+    background-color: rgba(255,255,255,0.95);
+    height: 75px;
+    border: 1px solid lightgray;
+	display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    padding-left: 5%;
+    padding-right: 5%;
+    font-family: 'Orbitron';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 25px;
+    line-height: 30px;
+    color: #000000;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 1;
+`;
 
 const Total = styled.div`
 display: flex ;
@@ -145,7 +259,7 @@ justify-content: flex-start;
 flex-direction: column;
 
 h1{
-    font-family: 'Raleway';
+    font-family: 'Poppins';
     font-weight: 700;
     font-size: 40px;
     margin-bottom: 65px;
@@ -164,7 +278,7 @@ padding-top: 25px;
 padding-bottom: 25px;
 margin-bottom: 45px;
 h3{
-    font-family: 'Raleway';
+    font-family: 'Poppins';
     font-weight: 600;
     font-size: 18px;
 }
@@ -194,7 +308,7 @@ margin-bottom: 20px;
 
 div{
     
-    font-family: 'Raleway';
+    font-family: 'Poppins';
     font-weight: 700;
     font-size: 25px;
 }
@@ -212,7 +326,7 @@ align-items: center;
 justify-content: center;
 background-color: black;
 color: white;
-font-family: 'Raleway';
+font-family: 'Poppins';
 font-size: 19px;
 padding: 19px;
 border-radius: 3px;
@@ -220,6 +334,7 @@ border: 1px solid;
 :hover {
   background-color: white;
   color: black;
+  cursor: pointer;
 }
  `;
 
@@ -237,7 +352,7 @@ text-align: center;
 
 
 h1{
-    font-family: 'Raleway';
+    font-family: 'Poppins';
     font-weight: 400;
     font-size: 40px;
     margin-bottom: 40px;
@@ -262,7 +377,7 @@ const Topo = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 69px;
+    margin-top: 75px;
     margin-bottom: 35px;
     width: 100%;
     background-position: center;
@@ -276,7 +391,7 @@ const Topo = styled.div`
     h1{
     display: flex;
     position: absolute;
-    font-family: 'Raleway';
+    font-family: 'Poppins';
     font-weight: 600;
     color: #FFFFFF;
     font-size: 55px;

@@ -1,21 +1,42 @@
 import styled from 'styled-components';
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { getProducts } from '../../service/api';
+import { useState, useEffect } from "react";
+import { getCart, getProducts } from '../../service/api';
 import Product from './Product';
+import { useContext } from "react";
+import UserContext from "../../contexts/UserContext";
 
 export default function HomeDisplay() {
     const navigate = useNavigate();
     const [productsContent, setProductsContent] = useState(<></>);
+    const [isLoged, setIsLoged] = useState(false);
+    const [itemsNumber, setItemsNumber] = useState(0);
+    const [refreshDisplay, setRefreshDisplay] = useState(false);
+    const { tasks, setTasks } = useContext(UserContext);
     let productsList;
-    getProducts().then(renderProducts).catch(() => {
-        alert("Erro ao carregar os produtos! Tente novamente!");
-    });
+    useEffect(() => {
+        getProducts().then(renderProducts).catch(() => {
+            alert("Erro ao carregar os produtos! Tente novamente!");
+        });
+        if(localStorage.getItem("token") !== null){
+            let token = localStorage.getItem("token");
+            getCart(token).then((answer)=>{
+                setItemsNumber(answer.data.length);
+            }).catch(() => {
+                alert("Erro ao carregar os produtos no carrinho! Tente novamente!");
+            });
+        }
+    }, [refreshDisplay]);
     function renderProducts(answer) {
         productsList=answer.data;
         setProductsContent(<>
-            {productsList.map((product,index) => <Product key={index} name={product.name} image={product.image} price={product.price}/>)}
+            {productsList.map((product,index) => <Product key={index} name={product.name} image={product.image} price={product.price} refreshDisplay={refreshDisplay} setRefreshDisplay={setRefreshDisplay}/>)}
         </>);
+        if(localStorage.getItem("token") !== null){
+            setIsLoged(true);
+        }else{
+            setIsLoged(false);
+        }
     }
     function getHome(){
         navigate('/');
@@ -24,13 +45,24 @@ export default function HomeDisplay() {
         navigate('/sign-in');
     }
     function getSignUp(){
-        navigate('/sign-up');
+        if(isLoged === false){
+            navigate('/sign-up');
+        }
     }
-    function getCart(){
-        navigate('/cart');
+    function goCart(){
+        if(localStorage.getItem("token") !== null){
+            navigate('/cart');
+        }else{
+            navigate('/sign-in');
+        }
     }
     function getAbout(){
         navigate('/about');
+    }
+    function logOut(){
+        setTasks([]);
+        localStorage.setItem("token", '');
+        setIsLoged(false);
     }
     return (
         <Content>
@@ -43,12 +75,25 @@ export default function HomeDisplay() {
                     <Icon>
                         <ion-icon name="information-circle" onClick={getAbout}></ion-icon>
                     </Icon>
+                    { isLoged ? (
+                        <Icon>
+                            <ion-icon name="cart" onClick={goCart}></ion-icon>
+                            <CartNumber>{itemsNumber}</CartNumber>
+                        </Icon>
+                    ) : (
+                        <Icon>
+                            <ion-icon name="cart" onClick={goCart}></ion-icon>
+                        </Icon>
+                    )}
+                    { isLoged ? (
                     <Icon>
-                        <ion-icon name="cart" onClick={getCart}></ion-icon>
+                        <ion-icon name="log-out" onClick={logOut}></ion-icon>
                     </Icon>
+                    ) : (
                     <Icon>
                         <ion-icon name="person" onClick={getSignIn}></ion-icon>
                     </Icon>
+                    )}
                 </Icons>
             </Header>
             <Banner>
@@ -56,7 +101,7 @@ export default function HomeDisplay() {
                 <TextFlexing>
                     <BannerText>Cadeiras premium</BannerText>
                     <BannerDescription>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vehicula nec purus a placerat. Nam mattis malesuada nisl, at finibus sem ornare id. Praesent vel purus et eros pharetra consequat. Donec eleifend mattis purus vel cursus. Etiam eu hendrerit lorem. Curabitur pharetra tortor eu libero imperdiet tincidunt. Sed sed ultricies nunc.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vehicula nec purus a placerat. Nam mattis malesuada nisl, at finibus sem ornare id. Praesent vel purus et eros pharetra consequat. Donec eleifend mattis purus vel cursus. Etiam eu hendrerit lorem.
                     </BannerDescription>
                     <SignUpText onClick={getSignUp}>Cadastre-se para receber todas as novidades!</SignUpText>
                 </TextFlexing>
@@ -80,6 +125,23 @@ export default function HomeDisplay() {
         </Content>
     );
 }
+
+const CartNumber = styled.div`
+    position: absolute;
+    height: 10px;
+    width: 10px;
+    font-size: 6px;
+    line-height: 7px;
+    color: white;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 1.3px;
+    right: -1.5px;
+    border-radius: 50%;
+    border: solid 0.5px white;
+`;
 
 const SingleSpacing = styled.div`
     margin-bottom: 7px;
@@ -157,8 +219,12 @@ const New = styled.div`
     padding: 5px;
     color: lightgrey;
     margin-left: 10px;
-    border: 1px solid lightgray;
+    border: 1px solid lightgrey;
     border-radius: 20px;
+    :hover{
+        color: white;
+        background-color: lightgrey;
+    }
 `;
 
 const Icon = styled.div`
@@ -166,6 +232,7 @@ const Icon = styled.div`
         color: gray;
         cursor: pointer;
     }
+    position: relative;
 `;
 
 const BannerDescription = styled.div`
