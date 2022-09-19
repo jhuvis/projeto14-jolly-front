@@ -7,13 +7,13 @@ import Cart from './Cart';
 import Header from '../Header/Header'
 
 
-let qtd = [];
 
 export default function Carts() {
 
     const [corpo, setCorpo] = useState("flex");
     const [carro, setCarro] = useState("none");
     const [carts, setCarts] = useState([]);
+    const [qtd, setQtd] = useState([]);
 
     const [total, setTotal] = useState(0);
     const [att, setAtt] = useState(0); 
@@ -45,7 +45,6 @@ export default function Carts() {
                 }
                 console.log(t);
                 setTotal(t);
-                setAtt(att+1);
             }
           }
         });
@@ -57,7 +56,10 @@ export default function Carts() {
 
       function upQtd(quantidade, index)
       {
-        qtd[index] = quantidade;
+        let quanti = [];
+        quanti = qtd;
+        quanti[index] = quantidade;
+        setQtd(quanti);
       }
 
       function updateCart()
@@ -75,7 +77,9 @@ export default function Carts() {
 
                 requisicao.then((e) => 
                 {
+                    setQtd([]);
                     console.log(e);
+                    setAtt(att+1);
                 });
                 requisicao.catch((e) => {
                     
@@ -83,8 +87,7 @@ export default function Carts() {
                 })
             }
         }
-        setAtt(att+1);
-        qtd = [];
+        
       }
     
     return (
