@@ -1,8 +1,7 @@
 import styled from 'styled-components';
-import { useNavigate, Link } from "react-router-dom";
+import {  Link } from "react-router-dom";
 import { useState } from "react";
-import { useContext, useEffect } from "react";
-import UserContext from "../../contexts/UserContext";
+import {  useEffect } from "react";
 import { getCart, upCart } from '../../service/api';
 import Cart from './Cart';
 import Header from '../Header/Header'
@@ -21,8 +20,6 @@ export default function Carts() {
     
     let token = localStorage.getItem("token");
     console.log(token);
-    const { tasks, setTasks } = useContext(UserContext);
-    const navigate = useNavigate();
 
     useEffect(() => {
         let isApiSubscribed = true;

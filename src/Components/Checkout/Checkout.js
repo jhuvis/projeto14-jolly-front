@@ -1,7 +1,6 @@
 import {useState, useEffect} from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import axios from 'axios';
 import Header from '../Header/Header'
 import { getCart, checkoutCart} from '../../service/api';
 
@@ -22,6 +21,12 @@ export default function Checkout()
 
     useEffect(() => {
         let isApiSubscribed = true;
+        console.log(token);
+        if(!token)
+        {
+            alert("Voce não esta logado!");
+            navigate('/sign-in');
+        }
     
         getCart(token).then((res) => {
           if(isApiSubscribed) 
@@ -29,7 +34,8 @@ export default function Checkout()
             setCarts(res.data);
             if(res.data.length === 0)
             {
-              
+                alert("Nada para finalizar, seu carrinho esta vazio!");
+                navigate('/');
             }
             else
             {
