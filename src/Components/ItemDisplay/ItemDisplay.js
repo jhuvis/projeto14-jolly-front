@@ -253,7 +253,7 @@ const ProductImage = styled.img`
     height: 600px;
     width: 50%;
     object-fit: cover;
-    object-position: bottom;
+    object-position: center;
 `;
 
 const Product = styled.div`

@@ -45,6 +45,7 @@ export default function Carts() {
                 }
                 console.log(t);
                 setTotal(t);
+                setAtt(att+1);
             }
           }
         });
