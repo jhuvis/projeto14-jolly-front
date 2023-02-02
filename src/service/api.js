@@ -1,5 +1,5 @@
 import axios from "axios";
-const URL = 'https://projeto14-jolly-back.herokuapp.com';
+const URL = 'https://jolly-back-api.onrender.com';
 /* const URL = 'http://localhost:5000'; */
 const headerCreator = (token) => {
     return {headers: {Authorization: `Bearer ${token}`}}
